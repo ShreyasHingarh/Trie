@@ -6,7 +6,10 @@ namespace ImposterTrie
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Trie tree = new Trie();
+            tree.Insert("tab", "tad","tae","tag", "table");
+            
+            ;
         }
     }
 }

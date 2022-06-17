@@ -15,6 +15,15 @@ namespace ImposterTrie
             Letter = C;
             IsWord = false;
         }
+        public override string ToString()
+        {
+            string togive = $"Value: {Letter} \n Children: ";
+            foreach(var child in Children)
+            {
+                togive += $"{child.Key}, ";
+            }
+            return togive;
+        }
     }
     public class Trie
     {
@@ -23,9 +32,26 @@ namespace ImposterTrie
         {
             sentinalBeing = new TrieNode('$');
         }
+        
         public void Insert(string word)
         {
-
+            TrieNode startingPoint = sentinalBeing;
+            for (int i = 0; i < word.Length; i++)
+            {
+                if (!startingPoint.Children.ContainsKey(word[i]))
+                {
+                    startingPoint.Children.Add(word[i], new TrieNode(word[i]));
+                }
+                startingPoint = startingPoint.Children[word[i]];
+            }
+            startingPoint.IsWord = true;
+        }
+        public void Insert(params string[] words)
+        {
+            for(int i = 0;i < words.Length;i++)
+            {
+                Insert(words[i]);
+            }
         }
         public string FindWord(string word )
         {
@@ -33,7 +59,7 @@ namespace ImposterTrie
         }
         public bool Contains(string word)
         {
-            return false;
+            return FindWord(word) != null;
         }
         public List<string> GetAllMatchingPrefix(string prefix)
         {
@@ -43,5 +69,7 @@ namespace ImposterTrie
         {
             return true;
         }
+
+       
     }
 }
