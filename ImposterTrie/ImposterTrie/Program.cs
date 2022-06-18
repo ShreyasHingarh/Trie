@@ -7,8 +7,10 @@ namespace ImposterTrie
         static void Main(string[] args)
         {
             Trie tree = new Trie();
-            tree.Insert("tab", "tad","tae","tag", "table");
+            tree.Insert("hay","hey","hellish","hello","doh");
             
+            ;
+            Console.Write(tree.Remove("hello"));
             ;
         }
     }

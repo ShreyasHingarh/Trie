@@ -53,20 +53,59 @@ namespace ImposterTrie
                 Insert(words[i]);
             }
         }
-        public string FindWord(string word )
+        private TrieNode SearchNode(string word)
         {
-            return null;
+            TrieNode node = sentinalBeing;
+            for (int i = 0; i < word.Length; i++)
+            {
+                if(!node.Children.ContainsKey(word[i]))
+                {
+                    return null;
+                }
+                node = node.Children[word[i]];
+            }
+            return node;
         }
         public bool Contains(string word)
         {
-            return FindWord(word) != null;
+            return SearchNode(word) != null;
         }
         public List<string> GetAllMatchingPrefix(string prefix)
         {
             return null;
         }
-        public bool Remove(string prefix)
+        public bool Remove(string word)
         {
+            if (!Contains(word))
+            {
+                return false;
+            }
+            Stack<TrieNode> nodes = new Stack<TrieNode>();
+            TrieNode node = sentinalBeing;
+            for (int i = 0; i < word.Length; i++)
+            {
+                node = node.Children[word[i]];
+                nodes.Push(node);
+            }
+            int Count = word.Length - 1;
+            while (nodes.Peek() != null)
+            {
+                TrieNode nodeAtQuestion = nodes.Peek();
+                if (nodeAtQuestion.Children.Count == 0)
+                {
+                    nodes.Pop();
+                    nodes.Peek().Children.Remove(word[Count]);
+                }
+                else if (nodeAtQuestion.Children.Count > 0)
+                {
+                    if (nodes.Peek().IsWord && Count == word.Length - 1)
+                    { 
+                        nodes.Peek().IsWord = false;
+                    }
+                    break;
+                }
+                Count--;
+            }
             return true;
         }
 
