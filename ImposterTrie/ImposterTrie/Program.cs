@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ImposterTrie
 {
@@ -8,10 +9,11 @@ namespace ImposterTrie
         {
             Trie tree = new Trie();
             tree.Insert("hay","hey","hellish","hello","doh");
-            
-            ;
-            Console.Write(tree.Remove("hello"));
-            ;
+            List<string> list = tree.GetAllMatchingPrefix("");
+            foreach(var word in list)
+            {
+                Console.WriteLine(word);
+            }
         }
     }
 }

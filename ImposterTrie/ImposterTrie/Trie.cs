@@ -72,7 +72,39 @@ namespace ImposterTrie
         }
         public List<string> GetAllMatchingPrefix(string prefix)
         {
-            return null;
+            TrieNode node = sentinalBeing;
+            for (int i = 0; i < prefix.Length; i++)
+            {
+                if (!node.Children.ContainsKey(prefix[i]))
+                {
+                    return new List<string>();
+                }
+                node = node.Children[prefix[i]];
+            }
+            List<string> strings = new List<string>();
+            string lettersInPrefix = "";
+
+            for(int i = 0;i < prefix.Length - 1;i++)
+            {
+                lettersInPrefix += prefix[i];
+            }
+             return GetWords(node, strings, lettersInPrefix);
+            
+
+        }
+        public List<string> GetWords(TrieNode startingPoint, List<string> stringsGotten, string lettersGotten)
+        {
+            lettersGotten += startingPoint.Letter;
+
+            if (startingPoint.IsWord)
+            {
+                stringsGotten.Add(lettersGotten);
+            }
+            foreach(var value in startingPoint.Children.Values)
+            {
+                GetWords(value, stringsGotten, lettersGotten);
+            }
+            return stringsGotten;
         }
         public bool Remove(string word)
         {
